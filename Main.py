@@ -36,6 +36,19 @@ def main():
     test_document = np.loadtxt(default_path+'e10.txt', delimiter='\n', dtype=str)
     test_words = bag_of_words(test_document)
 
+    print(nb_model.predict([test_words]))
+
+    X_test = []
+    y_test = []
+
+    for lang in languages:
+        for i in range(10, 20):
+            document = np.loadtxt(default_path+f'{lang}{i}.txt', delimiter='\n', dtype=str)
+            words = bag_of_words(document)
+            X_test.append(words)
+            y_test.append(lang)
+    
+    print(nb_model.accuracy(X_test, y_test))
 
 if __name__ == '__main__':
     main()

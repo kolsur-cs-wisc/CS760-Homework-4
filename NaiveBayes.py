@@ -11,23 +11,45 @@ class Naive_Bayes():
     def train(self):
         m, n = self.X.size, len(self.X[0])
 
-        y_types = set(self.y)
-        total = len(self.y)
-        class_count = len(y_types)
-        prior, log_prior = np.zeros(class_count), np.zeros(class_count)
+        self.y_labels = set(self.y)
+        self.class_count = len(self.y_labels)
+        self.prior, self.log_prior = {}, {}
+        self.theta, self.log_theta= {}, {}
 
-        likelihood, log_likelihood= {}, {}
-
-        for i, label in enumerate(y_types):
+        for label in self.y_labels:
             X_label = self.X[self.y == label]
-            prior[i] = (len(X_label) + self.alpha) / (total + class_count*self.alpha)
-            likelihood[label] = np.zeros(n)
+            self.prior[label] = (len(X_label) + self.alpha) / (m + self.class_count*self.alpha)
+            self.log_prior[label] = np.log(self.prior[label])
+            self.theta[label] = np.zeros(n)
             total_chars = 0
             for countMap in X_label:
                 for char, count in countMap.items():
-                    likelihood[label][self.vocab.index(char)] += count
+                    self.theta[label][self.vocab.index(char)] += count
                 total_chars += sum(countMap.values())
-            likelihood[label] = (likelihood[label] + self.alpha) / (total_chars + n*self.alpha)
-            log_likelihood[label] = np.log(likelihood[label])
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-        log_prior =  np.log(prior)
+            self.theta[label] = (self.theta[label] + self.alpha) / (total_chars + n*self.alpha)
+            self.log_theta[label] = np.log(self.theta[label])
+
+    def predict(self, X_test):
+        return [self.predict_single(word_map) for word_map in X_test]
+
+    def predict_single(self, X_word_map):
+        posterior = {}
+
+        for label in self.y_labels:
+            label_log_likelihood = self.log_theta[label]
+            curr_likelihood = 0
+            for char, count in X_word_map.items():
+                curr_likelihood += count * label_log_likelihood[self.vocab.index(char)]
+            posterior[label] = curr_likelihood + self.log_prior[label]
+
+        return max(posterior, key=posterior.get)
+    
+    def accuracy(self, X_test, y_test):
+        total_test = len(y_test)
+        y_pred = self.predict(X_test)
+        error = 0
+        for i in range(total_test):
+            if y_pred[i] != y_test[i]:
+                error += 1
+
+        return 1 - (error/total_test)
