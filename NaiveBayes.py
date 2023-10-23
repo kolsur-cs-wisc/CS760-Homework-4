@@ -13,8 +13,21 @@ class Naive_Bayes():
 
         y_types = set(self.y)
         total = len(self.y)
-        prior = np.zeros(len(y_types))
+        class_count = len(y_types)
+        prior, log_prior = np.zeros(class_count), np.zeros(class_count)
+
+        likelihood, log_likelihood= {}, {}
 
         for i, label in enumerate(y_types):
-            prior[i] = (len(self.X[self.y == label])+self.alpha)/(total+len(y_types)*self.alpha)
-        print(prior)
+            X_label = self.X[self.y == label]
+            prior[i] = (len(X_label) + self.alpha) / (total + class_count*self.alpha)
+            likelihood[label] = np.zeros(n)
+            total_chars = 0
+            for countMap in X_label:
+                for char, count in countMap.items():
+                    likelihood[label][self.vocab.index(char)] += count
+                total_chars += sum(countMap.values())
+            likelihood[label] = (likelihood[label] + self.alpha) / (total_chars + n*self.alpha)
+            log_likelihood[label] = np.log(likelihood[label])
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+        log_prior =  np.log(prior)

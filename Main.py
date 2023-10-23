@@ -33,5 +33,9 @@ def main():
     nb_model = Naive_Bayes(np.array(X_train), np.array(y_train), get_vocab())
     nb_model.train()
 
+    test_document = np.loadtxt(default_path+'e10.txt', delimiter='\n', dtype=str)
+    test_words = bag_of_words(test_document)
+
+
 if __name__ == '__main__':
     main()
