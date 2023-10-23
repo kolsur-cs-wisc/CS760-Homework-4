@@ -1,8 +1,12 @@
 import numpy as np
 import pandas as pd
+from NaiveBayes import Naive_Bayes
+
+def get_vocab():
+    return ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' ')
 
 def bag_of_words(document):
-    vocab = ('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' ')
+    vocab = get_vocab()
     word_count = dict.fromkeys(vocab, 0)
     
     for sentence in document:
@@ -25,6 +29,9 @@ def main():
             words = bag_of_words(document)
             X_train.append(words)
             y_train.append(lang)
+
+    nb_model = Naive_Bayes(np.array(X_train), np.array(y_train), get_vocab())
+    nb_model.train()
 
 if __name__ == '__main__':
     main()
