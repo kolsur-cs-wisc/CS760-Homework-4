@@ -25,7 +25,7 @@ def main():
     
     for lang in languages:
         for i in range(10):
-            document = np.loadtxt(default_path+f'{lang}{i}.txt', delimiter='\n', dtype=str)
+            document = np.loadtxt(default_path+f'{lang}{i}.txt', delimiter='\t', dtype=str)
             words = bag_of_words(document)
             X_train.append(words)
             y_train.append(lang)
@@ -33,7 +33,7 @@ def main():
     nb_model = Naive_Bayes(np.array(X_train), np.array(y_train), get_vocab())
     nb_model.train()
 
-    test_document = np.loadtxt(default_path+'e10.txt', delimiter='\n', dtype=str)
+    test_document = np.loadtxt(default_path+'e10.txt', delimiter='\t', dtype=str)
     test_words = bag_of_words(test_document)
 
     print(nb_model.predict([test_words]))
@@ -43,7 +43,7 @@ def main():
 
     for lang in languages:
         for i in range(10, 20):
-            document = np.loadtxt(default_path+f'{lang}{i}.txt', delimiter='\n', dtype=str)
+            document = np.loadtxt(default_path+f'{lang}{i}.txt', delimiter='\t', dtype=str)
             words = bag_of_words(document)
             X_test.append(words)
             y_test.append(lang)
