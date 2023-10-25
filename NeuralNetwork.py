@@ -53,9 +53,9 @@ class ThreeLayerNN():
         return -np.sum(np.multiply(y_label, np.log(y_pred)))
     
     def predict(self, X_test):
-        Z1 = np.matmul(self.W1, X_test.T) + self.b1
+        Z1 = np.matmul(self.W1, X_test.T) #+ self.b1
         A1 = self.sigmoid(Z1)
-        Z2 = np.matmul(self.W2, A1) + self.b2
+        Z2 = np.matmul(self.W2, A1) #+ self.b2
         A2 = np.exp(Z2) / np.sum(np.exp(Z2), axis=0)
 
         predictions = np.argmax(A2, axis=0)
