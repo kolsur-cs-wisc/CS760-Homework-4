@@ -2,14 +2,11 @@ import numpy as np
 import pandas as pd
 
 class ThreeLayerNN():
-    def __init__(self, X_train, y_train, lr = 0.05, epochs = 5000):
-        self.X = X_train
-        self.y = y_train
+    def __init__(self, d = 784, k = 10, d1 = 300, lr = 0.05):
         self.lr = lr
-        self.epochs = epochs
-        self.m, self.n_X = X_train.shape
-        self.n_y = y_train.shape[0]
-        self.n_h = 300
+        self.n_X = d
+        self.n_y = k
+        self.n_h = d1
         self.initialize_weights()
 
     def initialize_weights(self):
@@ -24,29 +21,33 @@ class ThreeLayerNN():
     def delta_sigmoid(self, value):
         return self.sigmoid(value) * (1 - self.sigmoid(value))
 
-    def train(self):
-        for i in range(self.epochs):
-            Z1 = np.matmul(self.W1, self.X.T) + self.b1
-            A1 = self.sigmoid(Z1)
-            Z2 = np.matmul(self.W2, A1) + self.b2
-            A2 = np.exp(Z2) / np.sum(np.exp(Z2), axis=0)
+    def train(self, X_train, y_train):
+        self.X = X_train
+        self.y = y_train
+        self.m = self.X.shape[1]
+        
+        Z1 = np.matmul(self.W1, self.X.T) + self.b1
+        A1 = self.sigmoid(Z1)
+        Z2 = np.matmul(self.W2, A1) + self.b2
+        A2 = np.exp(Z2) / np.sum(np.exp(Z2), axis=0)
 
-            cost = self.loss_func(A2, self.y)
+        cost = self.loss_func(A2, self.y)
 
-            dZ2 = A2 - self.y
-            dW2 = (1/self.m) * np.matmul(dZ2, A1.T)
-            db2 = (1/self.m) * np.sum(dZ2, axis=1, keepdims=True)
+        dZ2 = A2 - self.y
+        dW2 = (1/self.m) * np.matmul(dZ2, A1.T)
+        db2 = (1/self.m) * np.sum(dZ2, axis=1, keepdims=True)
 
-            dA1 = np.matmul(self.W2.T, dZ2)
-            dZ1 = dA1 * self.sigmoid(Z1) * (1 - self.sigmoid(Z1))
-            dW1 = (1./self.m) * np.matmul(dZ1, self.X)
-            db1 = (1./self.m) * np.sum(dZ1, axis=1, keepdims=True)
+        dA1 = np.matmul(self.W2.T, dZ2)
+        dZ1 = dA1 * self.sigmoid(Z1) * (1 - self.sigmoid(Z1))
+        dW1 = (1./self.m) * np.matmul(dZ1, self.X)
+        db1 = (1./self.m) * np.sum(dZ1, axis=1, keepdims=True)
 
-            self.W2 = self.W2 - self.lr * dW2
-            self.b2 = self.b2 - self.lr * db2
-            self.W1 = self.W1 - self.lr * dW1
-            self.b1 = self.b1 - self.lr * db1
-        print("Final cost:", cost) 
+        self.W2 = self.W2 - self.lr * dW2
+        self.b2 = self.b2 - self.lr * db2
+        self.W1 = self.W1 - self.lr * dW1
+        self.b1 = self.b1 - self.lr * db1
+
+        return cost
 
     def loss_func(self, y_pred, y_label):
         return -np.sum(np.multiply(y_label, np.log(y_pred)))
