@@ -9,10 +9,6 @@ def main():
                                torchvision.transforms.ToTensor(), torch.flatten])), batch_size=64, shuffle=True)
     test_loader = torch.utils.data.DataLoader(torchvision.datasets.MNIST('MNIST/', train=False, download=True, transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(), torch.flatten])), batch_size=1000, shuffle=True)
-    
-    test_set = iter(test_loader)
-
-    X_test, y_test = next(test_set)
 
     epochs = 10
 
@@ -26,7 +22,11 @@ def main():
             curr_cost = nn_model.train(np.array(X_train), np.array(y_train))
             if step % 100 == 0: print(f'Epoch {i}, Step {step}, Cost = {curr_cost}')
 
-    print(f'Accuracy = {1 - nn_model.test_error(np.array(X_test), np.array(y_test))}')
+    accuracy = []
+    for idx, (X_test, y_test) in enumerate(test_loader):
+        accuracy.append(1 - nn_model.test_error(np.array(X_test), np.array(y_test)))
+
+    print(np.mean(accuracy))
 
 if __name__ == '__main__':
     main()

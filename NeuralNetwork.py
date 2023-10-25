@@ -24,7 +24,7 @@ class ThreeLayerNN():
     def train(self, X_train, y_train):
         self.X = X_train
         self.y = y_train
-        self.m = self.X.shape[1]
+        self.m = self.X.shape[0]
         
         Z1 = np.matmul(self.W1, self.X.T) + self.b1
         A1 = self.sigmoid(Z1)
