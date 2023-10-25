@@ -26,24 +26,22 @@ class ThreeLayerNN():
 
     def train(self):
         for i in range(self.epochs):
-            Z1 = np.matmul(self.W1, self.X.T) + self.b1                   # (64,784)*(784,42000) + (64,1) ---> (64,42000)
-            A1 = self.sigmoid(Z1)                                       # (64,42000)
+            Z1 = np.matmul(self.W1, self.X.T) + self.b1
+            A1 = self.sigmoid(Z1)
+            Z2 = np.matmul(self.W2, A1) + self.b2
+            A2 = np.exp(Z2) / np.sum(np.exp(Z2), axis=0)
 
-            Z2 = np.matmul(self.W2, A1) + self.b2                               # (10,64) * (64,42000) + (10,1) ---> (10,42000)
-            A2 = np.exp(Z2) / np.sum(np.exp(Z2), axis=0)           # (10,42000)
+            cost = self.loss_func(A2, self.y)
 
-            cost = self.loss_func(A2, self.y)                      # (10,42000)
+            dZ2 = A2 - self.y
+            dW2 = (1/self.m) * np.matmul(dZ2, A1.T)
+            db2 = (1/self.m) * np.sum(dZ2, axis=1, keepdims=True)
 
-            dZ2 = A2 - self.y                                        # (10, 42000)
-            dW2 = (1/self.m) * np.matmul(dZ2, A1.T)                    # (10,64)
-            db2 = (1/self.m) * np.sum(dZ2, axis=1, keepdims=True)      # (10, 1)
+            dA1 = np.matmul(self.W2.T, dZ2)
+            dZ1 = dA1 * self.sigmoid(Z1) * (1 - self.sigmoid(Z1))
+            dW1 = (1./self.m) * np.matmul(dZ1, self.X)
+            db1 = (1./self.m) * np.sum(dZ1, axis=1, keepdims=True)
 
-            dA1 = np.matmul(self.W2.T, dZ2)                             # (64, 42000)
-            dZ1 = dA1 * self.sigmoid(Z1) * (1 - self.sigmoid(Z1))            # (64, 42000)
-            dW1 = (1./self.m) * np.matmul(dZ1, self.X)                # (64,784)  
-            db1 = (1./self.m) * np.sum(dZ1, axis=1, keepdims=True)      # (64,1)
-
-            # Now to update the matrices of W1, W2, b1 and b2.
             self.W2 = self.W2 - self.lr * dW2
             self.b2 = self.b2 - self.lr * db2
             self.W1 = self.W1 - self.lr * dW1

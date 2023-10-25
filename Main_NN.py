@@ -6,7 +6,7 @@ from sklearn.preprocessing import OneHotEncoder
 
 def main():
     train_loader = torch.utils.data.DataLoader(torchvision.datasets.MNIST('MNIST/', train=True, download=True, transform=torchvision.transforms.Compose([
-                               torchvision.transforms.ToTensor(), torch.flatten])), batch_size=100, shuffle=True)
+                               torchvision.transforms.ToTensor(), torch.flatten])), batch_size=500, shuffle=True)
     test_loader = torch.utils.data.DataLoader(torchvision.datasets.MNIST('MNIST/', train=False, download=True, transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(), torch.flatten])), batch_size=100, shuffle=True)
     
