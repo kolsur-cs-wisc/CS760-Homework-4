@@ -1,13 +1,14 @@
 import numpy as np
 import torch
 import torchvision
+from matplotlib import pyplot as plt
 from NeuralNetwork import ThreeLayerNN
 
 def main():
     train_loader = torch.utils.data.DataLoader(torchvision.datasets.MNIST('MNIST/', train=True, download=True, transform=torchvision.transforms.Compose([
-                               torchvision.transforms.ToTensor(), torch.flatten])), batch_size=100, shuffle=True)
+                               torchvision.transforms.ToTensor(), torch.flatten])), batch_size=32, shuffle=True)
     test_loader = torch.utils.data.DataLoader(torchvision.datasets.MNIST('MNIST/', train=False, download=True, transform=torchvision.transforms.Compose([
-                               torchvision.transforms.ToTensor(), torch.flatten])), batch_size=100000, shuffle=True)
+                               torchvision.transforms.ToTensor(), torch.flatten])), batch_size=10000, shuffle=True)
 
     epochs = 25
 
@@ -23,11 +24,11 @@ def main():
             curr_cost = nn_model.train(np.array(X_train), np.array(y_train))
             if step % 100 == 0: print(f'Epoch {i}, Step {step}, Cost = {curr_cost}')
 
-            curr_acc = []
+            curr_err = []
 
             for idx, (X_test, y_test) in enumerate(test_loader):
-                curr_acc.append(1 - nn_model.test_error(np.array(X_test), np.array(y_test)))
-            learning_curve[(step+1)*100] = np.mean(curr_acc)
+                curr_err.append( nn_model.test_error(np.array(X_test), np.array(y_test)))
+            learning_curve[(step+1)*100] = np.mean(curr_err)
 
     accuracy = []
     for idx, (X_test, y_test) in enumerate(test_loader):
@@ -35,7 +36,9 @@ def main():
 
     print(np.mean(accuracy))
 
-    print(learning_curve)
+    # print(learning_curve)
+    plt.plot(learning_curve.keys(), learning_curve.values())
+    plt.savefig('Learning Curve.png')
 
 if __name__ == '__main__':
     main()
