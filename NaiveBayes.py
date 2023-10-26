@@ -19,7 +19,7 @@ class Naive_Bayes():
         for label in self.y_labels:
             X_label = self.X[self.y == label]
             self.prior[label] = (len(X_label) + self.alpha) / (m + self.class_count*self.alpha)
-            self.log_prior[label] = np.log(self.prior[label])
+            self.log_prior[label] = np.log10(self.prior[label])
             self.theta[label] = np.zeros(n)
             total_chars = 0
             for countMap in X_label:
@@ -28,7 +28,7 @@ class Naive_Bayes():
                 total_chars += sum(countMap.values())
             self.theta[label] = (self.theta[label] + self.alpha) / (total_chars + n*self.alpha)
             print(label, self.theta[label], sum(self.theta[label]))
-            self.log_theta[label] = np.log(self.theta[label])
+            self.log_theta[label] = np.log10(self.theta[label])
 
     def predict(self, X_test):
         return [self.predict_single(word_map) for word_map in X_test]
@@ -45,7 +45,7 @@ class Naive_Bayes():
             likelihood_prob[label] = np.exp(curr_likelihood)
             posterior[label] = curr_likelihood + self.log_prior[label]
 
-        print(likelihood_prob)
+        print(posterior)
         return max(posterior, key=posterior.get)
     
     def accuracy(self, X_test, y_test):
