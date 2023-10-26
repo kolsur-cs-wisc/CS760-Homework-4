@@ -20,6 +20,7 @@ class Naive_Bayes():
             X_label = self.X[self.y == label]
             self.prior[label] = (len(X_label) + self.alpha) / (m + self.class_count*self.alpha)
             self.log_prior[label] = np.log10(self.prior[label])
+            print(f'Prior {label} = {self.prior[label]}, Log10 Space = {self.log_prior[label]}')
             self.theta[label] = np.zeros(n)
             total_chars = 0
             for countMap in X_label:
@@ -27,7 +28,7 @@ class Naive_Bayes():
                     self.theta[label][self.vocab.index(char)] += count
                 total_chars += sum(countMap.values())
             self.theta[label] = (self.theta[label] + self.alpha) / (total_chars + n*self.alpha)
-            print(label, self.theta[label], sum(self.theta[label]))
+            print(f'Multinomial Parameter Theta {label}: ', self.theta[label])
             self.log_theta[label] = np.log10(self.theta[label])
 
     def predict(self, X_test):
@@ -40,12 +41,15 @@ class Naive_Bayes():
         for label in self.y_labels:
             label_log_likelihood = self.log_theta[label]
             curr_likelihood = 0
+            total_char = 0
             for char, count in X_word_map.items():
                 curr_likelihood += count * label_log_likelihood[self.vocab.index(char)]
-            likelihood_prob[label] = np.exp(curr_likelihood)
-            posterior[label] = curr_likelihood + self.log_prior[label]
+                total_char += count
+            likelihood_prob[label] = curr_likelihood
+            posterior[label] = curr_likelihood + self.log_prior[label] - total_char * np.log10(1/27)
 
-        print(posterior)
+        print(f'Likelihood p(x|y) =  {likelihood_prob}')
+        print(f'Posterior p(y|x) = {posterior}')
         return max(posterior, key=posterior.get)
     
     def accuracy(self, X_test, y_test):

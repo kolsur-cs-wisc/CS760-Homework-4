@@ -35,6 +35,7 @@ def main():
 
     test_document = np.loadtxt(default_path+'e10.txt', delimiter='\t', dtype=str)
     test_words = bag_of_words(test_document)
+    print(f'Bag of Words e10: {test_words}')
 
     print(nb_model.predict([test_words]))
 
