@@ -27,7 +27,7 @@ class Naive_Bayes():
                     self.theta[label][self.vocab.index(char)] += count
                 total_chars += sum(countMap.values())
             self.theta[label] = (self.theta[label] + self.alpha) / (total_chars + n*self.alpha)
-            print(self.theta[label], sum(self.theta[label]))
+            print(label, self.theta[label], sum(self.theta[label]))
             self.log_theta[label] = np.log(self.theta[label])
 
     def predict(self, X_test):

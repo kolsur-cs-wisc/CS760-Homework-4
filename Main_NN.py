@@ -5,8 +5,9 @@ from matplotlib import pyplot as plt
 from NeuralNetwork import ThreeLayerNN
 
 def main():
+    train_batch_size = 32
     train_loader = torch.utils.data.DataLoader(torchvision.datasets.MNIST('MNIST/', train=True, download=True, transform=torchvision.transforms.Compose([
-                               torchvision.transforms.ToTensor(), torch.flatten])), batch_size=32, shuffle=True)
+                               torchvision.transforms.ToTensor(), torch.flatten])), batch_size=train_batch_size, shuffle=True)
     test_loader = torch.utils.data.DataLoader(torchvision.datasets.MNIST('MNIST/', train=False, download=True, transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(), torch.flatten])), batch_size=10000, shuffle=True)
 
@@ -28,7 +29,7 @@ def main():
 
             for idx, (X_test, y_test) in enumerate(test_loader):
                 curr_err.append( nn_model.test_error(np.array(X_test), np.array(y_test)))
-            learning_curve[(step+1)*100] = np.mean(curr_err)
+            learning_curve[(step+1)*train_batch_size] = np.mean(curr_err)
 
     accuracy = []
     for idx, (X_test, y_test) in enumerate(test_loader):
