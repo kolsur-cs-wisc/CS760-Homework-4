@@ -45,11 +45,11 @@ class Naive_Bayes():
                 curr_likelihood += count * label_log_likelihood[self.vocab.index(char)]
                 total_char += count
             likelihood_prob[label] = curr_likelihood
-            posterior[label] = curr_likelihood + self.log_prior[label] #- (total_char * np.log10(1/27))
+            posterior[label] = curr_likelihood + self.log_prior[label]
 
         print(f'Likelihood p(x|y) =  {likelihood_prob}')
         print(f'Posterior p(y|x) = {posterior}')
-        print(np.power(10, list(likelihood_prob.values()), dtype=np.longdouble) / np.sum(np.power(10, list(likelihood_prob.values()), dtype=np.longdouble)))
+        print((np.power(10, list(likelihood_prob.values()), dtype=np.longdouble) / np.sum(np.power(10, list(posterior.values()), dtype=np.longdouble)))/3)
         return max(posterior, key=posterior.get)
     
     def accuracy(self, X_test, y_test):
