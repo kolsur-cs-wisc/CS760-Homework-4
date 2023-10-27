@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 from NaiveBayes import Naive_Bayes
 
 def get_vocab():

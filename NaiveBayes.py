@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 
 class Naive_Bayes():
     def __init__(self, X_train, y_train, vocab, alpha=0.5):
@@ -15,16 +14,6 @@ class Naive_Bayes():
         self.class_count = len(self.y_labels)
         self.prior, self.log_prior = {}, {}
         self.theta, self.log_theta= {}, {}
-
-        charCount = np.zeros(n)
-        total_char = 0
-        
-        for countMap in self.X:
-            for char, count in countMap.items():
-                charCount[self.vocab.index(char)] += count
-                total_char += count
-        self.charProb = np.array(charCount)/total_char
-        print(self.charProb)
 
         for label in self.y_labels:
             X_label = self.X[self.y == label]
@@ -51,18 +40,16 @@ class Naive_Bayes():
         for label in self.y_labels:
             label_log_likelihood = self.log_theta[label]
             curr_likelihood = 0
-            curr_post = 0
             total_char = 0
             for char, count in X_word_map.items():
                 curr_likelihood += count * label_log_likelihood[self.vocab.index(char)]
                 total_char += count
-                curr_post += curr_likelihood - (count * np.log10(self.charProb[self.vocab.index(char)]))
             likelihood_prob[label] = curr_likelihood
             posterior[label] = curr_likelihood + self.log_prior[label] #- (total_char * np.log10(1/27))
 
         print(f'Likelihood p(x|y) =  {likelihood_prob}')
         print(f'Posterior p(y|x) = {posterior}')
-        print(np.power(10, list(likelihood_prob.values()), dtype=np.float128) / np.sum(np.power(10, list(likelihood_prob.values()), dtype=np.float128)))
+        print(np.power(10, list(likelihood_prob.values()), dtype=np.longdouble) / np.sum(np.power(10, list(likelihood_prob.values()), dtype=np.longdouble)))
         return max(posterior, key=posterior.get)
     
     def accuracy(self, X_test, y_test):
