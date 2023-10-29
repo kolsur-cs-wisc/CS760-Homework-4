@@ -43,7 +43,7 @@ class ThreeLayerNN():
             self.W2 = self.W2 - self.lr * dW2
 
             da1 = np.matmul(self.W2.T, dz2)
-            dz1 = da1 * self.sigmoid(z1) * (1 - self.sigmoid(z1))
+            dz1 = da1 * self.delta_sigmoid(z1)
             dW1 = (1./self.m) * np.matmul(dz1, self.X)
 
             self.W1 = self.W1 - self.lr * dW1
