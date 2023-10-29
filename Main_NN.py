@@ -28,7 +28,7 @@ def main():
             if iterations%100 == 0 or iterations == 1: 
                 print(f'Epoch {i}, Step {step+1}, Cost = {curr_cost}')
                 for idx, (X_test, y_test) in enumerate(test_loader):
-                    learning_curve[iterations] = nn_model.test_error(np.array(X_test), np.array(y_test))
+                    learning_curve[iterations] = 1 - nn_model.test_error(np.array(X_test), np.array(y_test))
             iterations += 1
 
     accuracy = []
@@ -39,6 +39,9 @@ def main():
 
     # print(learning_curve)
     plt.plot(learning_curve.keys(), learning_curve.values())
+    plt.xlabel("Iterations")
+    plt.ylabel("Accuracy")
+    plt.title("Learning Curve (Custom Implementation)")
     plt.savefig('Learning Curve Custom.png')
 
 if __name__ == '__main__':
