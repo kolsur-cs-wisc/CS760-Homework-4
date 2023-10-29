@@ -1,11 +1,18 @@
-No Weight Init, Adam Optimizer, LR = 0.001, Batch Size = 32, Epochs = 3
+No Weight Init, Adam Optimizer, LR = 0.001, Batch Size = 32, Epochs = 3, d1 = 300
 Epoch -1, Test Error = 0.8972
 Epoch 0, Test Error = 0.06159999999999999
 Epoch 1, Test Error = 0.04479999999999995
 Epoch 2, Test Error = 0.04490000000000005
 Final Accuracy = 0.9551
 
-Uniform (-1, 1) Weight Init, Adam Optimizer, LR = 0.005, Batch Size = 32, Epochs = 6
+No Weight Init, Adam Optimizer, LR = 0.001, Batch Size = 32, Epochs = 3, d1 = 200
+Epoch -1, Test Error = 0.8946000000000001
+Epoch 0, Test Error = 0.06820000000000004
+Epoch 1, Test Error = 0.053100000000000036
+Epoch 2, Test Error = 0.04610000000000003
+Final Accuracy = 0.9539
+
+Uniform (-1, 1) Weight Init, Adam Optimizer, LR = 0.005, Batch Size = 32, Epochs = 6, d1 = 300
 Epoch -1, Test Error = 0.8972
 Epoch 0, Test Error = 0.14400000000000002
 Epoch 1, Test Error = 0.13280000000000003
@@ -15,7 +22,17 @@ Epoch 4, Test Error = 0.03310000000000002
 Epoch 5, Test Error = 0.037900000000000045
 Final Accuracy = 0.9621
 
-Zeros Weight Init, Adam Optimizer, LR = 0.001, Batch Size = 32, Epochs = 25
+Uniform (-1, 1) Weight Init, Adam Optimizer, LR = 0.005, Batch Size = 32, Epochs = 6, d1 = 200
+Epoch -1, Test Error = 0.837
+Epoch 0, Test Error = 0.14900000000000002
+Epoch 1, Test Error = 0.13490000000000002
+Epoch 2, Test Error = 0.040200000000000014
+Epoch 3, Test Error = 0.03400000000000003
+Epoch 4, Test Error = 0.03539999999999999
+Epoch 5, Test Error = 0.03200000000000003
+Final Accuracy = 0.9680
+
+Zeros Weight Init, Adam Optimizer, LR = 0.001, Batch Size = 32, Epochs = 25, d1 = 300
 Epoch -1, Test Error = 0.902
 Epoch 0, Test Error = 0.6271
 Epoch 1, Test Error = 0.626
@@ -42,4 +59,8 @@ Epoch 21, Test Error = 0.5397000000000001
 Epoch 22, Test Error = 0.5396000000000001
 Epoch 23, Test Error = 0.5428
 Epoch 24, Test Error = 0.5434
+Final Accuracy = 0.4566
+
+Zeros Weight Init, Adam Optimizer, LR = 0.001, Batch Size = 32, Epochs = 25, d1 = 200
+
 Final Accuracy = 0.4566
