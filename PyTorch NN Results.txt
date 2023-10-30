@@ -62,5 +62,30 @@ Epoch 24, Test Error = 0.5434
 Final Accuracy = 0.4566
 
 Zeros Weight Init, Adam Optimizer, LR = 0.001, Batch Size = 32, Epochs = 25, d1 = 200
-
-Final Accuracy = 0.4566
+Epoch -1, Test Error = 0.902
+Epoch 0, Test Error = 0.8863
+Epoch 1, Test Error = 0.8846
+Epoch 2, Test Error = 0.882
+Epoch 3, Test Error = 0.8805000000000001
+Epoch 4, Test Error = 0.877
+Epoch 5, Test Error = 0.8754
+Epoch 6, Test Error = 0.874
+Epoch 7, Test Error = 0.8741
+Epoch 8, Test Error = 0.8718
+Epoch 9, Test Error = 0.8705
+Epoch 10, Test Error = 0.8698
+Epoch 11, Test Error = 0.8683
+Epoch 12, Test Error = 0.8689
+Epoch 13, Test Error = 0.868
+Epoch 14, Test Error = 0.869
+Epoch 15, Test Error = 0.868
+Epoch 16, Test Error = 0.8678
+Epoch 17, Test Error = 0.8658
+Epoch 18, Test Error = 0.8663
+Epoch 19, Test Error = 0.8636
+Epoch 20, Test Error = 0.8627
+Epoch 21, Test Error = 0.8638
+Epoch 22, Test Error = 0.8641
+Epoch 23, Test Error = 0.8658
+Epoch 24, Test Error = 0.862
+Final Accuracy = 0.1280
